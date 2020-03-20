@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    	<title>vue-test</title>
+	</head>
+	<body>
+		<div id="app">
+			{{ message }}
+			<span v-bind:title="message1" v-bind:[addraa]="cnt">
+				鼠标悬停几秒钟查看提示信息
+			</span>
+			<p v-if="seen">现在你看到我了</p>
+			<ol>
+				<li v-for="todo in todos">
+					{{todo.text}}
+				</li>
+			</ol>
+			<button v-on:click="reverseMessage">翻转消息</button>
+			<input v-model="message" >
+			<ol>
+				<todo-item
+					v-for="item in todos"
+					v-bind:todo="item"
+					v-bind:key="item.id">
+				</todo-item>
+			</ol>
+			<cont class="ddd"
+				v-bind:cnt="cnt"
+				v-bind:addraa="addraa"
+				v-bind:ok="isOK">
+			</cont>
+			<form @submit.prevent="onSubmit" action="http://www.baidu.com">
+				姓名: <input> <br />
+				密码: <input>
+				<input type="submit" name="提交">
+			</form>
+			<span :title="message1">11111111</span>
+			<div id="example">
+				<p>Original message: "{{ message }}"</p>
+				<p>Computed reversed message: "{{ reverseMessage() }}"</p>
+			</div>
+			<div id="watch-example">
+				<p>
+					Ask a yes/no question:
+					<input v-model="question" >
+				</p>
+				<p>{{ answer }}</p>
+			</div>
+			<div id="login" class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }">
+				用户名 <input v-model="accountId">
+				密码 <input v-model="password">
+				<button @click="debouncedLogin">登录</button>
+			</div>
+			<div :class="classObject">
+			</div>
+			<div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px'}">
+				<p>绑定内联样式</p>
+			</div>
+			<h1 v-if="awesome">Vue is awesome!</h1>
+			<h1 v-else-if="awesome2">Vue ...</h1>
+			<h1 v-else>Oh no</h1>
+			
+			<div>
+				<div v-if="loginType === 'username'">
+					<label>Username</label>
+					<input placeHolder="Enter you username">
+				</div>
+				<div v-else>
+					<label>Email</label>
+					<input placeHolder="Enter your email address">
+				</div>
+				<button @click="toggleLoginType">改变输入类型</button>
+			</div>
+			
+			<ul id="vforTest">
+				<li v-for="(item, index) in items" v-bind:key="item.id">{{index}}: {{ item.message }}</li>
+			</ul>
+			<ul>
+				<li v-for="(value, name) of object">{{name}}: {{value}}</li>
+			</ul>
+			
+			<ul>
+				<li v-for="n in evenNumbers">{{n}}</li>
+			</ul>
+			
+			<div>
+				<button v-on:click="counter += 1">Add 1</button>
+				<p>The button above has been clickd {{ counter }} times.</p>
+			</div>
+			
+			<div>
+				<input v-model="message" placeHolder="edit me">
+				<p>Message is: {{ message }}</p>
+			</div>
+			
+			<div id="components-demo">
+				<div :style="{fontSize: postFontSize + 'em'}">
+					<button-counter 
+						v-bind:title="message"
+						v-on:enlarge-text="postFontSize += $event">
+					</button-counter>
+				</div>
+			</div>
+			
+			<div>
+				<component-a></component-a>
+			</div>
+			
+			<div id="com-test">
+				<button v-on:click="selectToDo">todoList</button>
+				<button v-on:click="componentAMethod">componentA</button>
+				<component v-bind:is="currentComponent" ref='aaa' :todo="todos"></component>
+			</div>
+			
+			<!--<Hello></Hello>-->
+		</div>
+		
+		<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+		<script>
+			import Hello from './Hello.vue'
+			
+			Vue.component('todo-item', {
+				props: ['todo'],
+				template: '<li>{{todo.text}}</li>',
+			})
+			Vue.component('cont', {
+				props: ['cnt', 'addraa', 'ok'],
+				template: '<div v-if="ok" class="aaa bbb"><span class="ccc">aaa{{cnt}}</span><br/>' +
+					'<a v-bind:[addraa]="addraa" v-on:click="myPrint">链接</a></div>',
+				methods: {
+					myPrint: function () {
+						window.alert("1111");
+					},
+				},
+			})
+			Vue.component('button-counter', {
+				props: ['title'],
+				data: function () {
+					return {
+						count: 0
+					}
+				},
+				template: '<div><button v-on:click="count++">You click me {{ count }} times.</button><h3>{{title}}</h3>' +
+					'<button v-on:click="$emit(\'enlarge-text\', 0.5)">enLargeText</button></div>'
+			})
+			
+			var ComponentA = {
+				template: '<div><p>aaa</p></div>',
+			};
+			
+			var app = new Vue({
+				el: '#app',
+				data: {
+					message: 'Hello Vue!',
+					message1: '页面加载于 ' + new Date().toLocaleString(),
+					seen: true,
+					todos: [
+						{id: 1, text: '学习javascript'},
+						{id: 2, text: '学习Vue'}
+					],
+					cnt: '11111',
+					addraa: 'ccccc',
+					question: '',
+					answer: 'I cannot give you an answer until you ask a question!',
+					accountId: '',
+					password: '',
+					isActive: true,
+					hasError: false,
+					classObject: {
+						active: true,
+						textdanger: false,
+					},
+					activeColor: 'red',
+					fontSize: 30,
+					awesome: true,
+					awesome2: true,
+					isOK: true,
+					loginType: 'username',
+					items: [
+						{id: 1, message: "1"},
+						{id: 2, message: "2"}
+					],
+					object: {
+						id: 1,
+						title: "title",
+						author: "zhao",
+					},
+					numbers: [0, 1, 2, 3, 4, 5],
+					counter: 0,
+					postFontSize: 1,
+					currentComponent: 'component-a',
+				},
+				components: {
+					"component-a": ComponentA,
+				},
+				methods: {
+					reverseMessage: function () {
+						console.log("000000001")
+						return this.message.split('').reverse().join('');
+					},
+					onSubmit: function () {
+						console.log("onSubmit");
+					},
+					getAnswer: function () {
+						console.log('getAnswer');
+						if (this.question.indexOf('?') === -1) {
+							this.answer = 'Questions usually contain a question mark. ;-)';
+							return;
+						}
+						this.answer = 'Thinking...';
+						var vm = this;
+						axios({
+							method: 'get',
+							url: 'https://www.baidu.com',
+							withCredentials: true,
+						})
+						.then(function (response) {
+							console.log('2222');
+							vm.answer = _.capitalize(response.data.answer);
+						})
+						.catch(function (error) {
+							console.log('33333')
+							vm.answer = error;
+						})
+					},
+					login: function () {
+						console.log("accountId: " + this.accountId + ", password: " + this.password);
+						var mmToken = localStorage.getItem('MMTOKEN');
+						console.log('MMTOKEN: ' + mmToken);
+						var vm = this;
+						axios({
+							method: 'post',
+							url: 'http://192.168.1.46:8080/molms/apiAuth/appNewLogin.do',
+							headers: {
+								'X-Requested-With': 'aaa',
+								'MMToken': '22222',
+								'MMToken2': '3333',
+							},
+							data: {
+								accountId: vm.accountId,
+								password: vm.password
+							}
+						})
+						.then(function (response) {
+							console.log(response);
+							if (response.data.code === 0) {
+								console.log('登录成功');
+								localStorage.setItem('USERINFO', JSON.stringify(response.data.data));
+								var userInfo = JSON.parse(localStorage.getItem('USERINFO'));
+								console.log('userInfo.realname: ' + userInfo.realname);
+							} else {
+								console.log('登录失败: ' + response.data.errMsg);
+							}
+						})
+						.catch(function (error) {
+							console.log(error);
+							alert(error);
+						})
+					},
+					toggleLoginType: function () {
+						if (this.loginType === 'username') {
+							this.loginType = 'email';
+						} else {
+							this.loginType = 'username';
+						}
+					},
+					selectToDo: function () {
+						this.currentComponent = 'todo-item';
+						this.$refs.aaa.todo = this.todos;
+					},
+					componentAMethod: function () {
+						this.currentComponent = 'component-a';
+					},
+				},
+				computed: {
+					// 计算属性
+					//reverseMessage: function () {
+					//	console.log("11111111")
+					//	return this.message.split('').reverse().join('');
+					//},
+					evenNumbers: function () {
+						return this.numbers.filter(function (number) {
+							return number % 2 === 0;
+						})
+					},
+				},
+				watch : {
+					question: function (newQuestion, oldQuestion) {
+						console.log('question');
+						this.answer = 'Waiting for you to stop typing...';
+						this.debouncedGetAnswer();
+					},
+				},
+				
+				created: function () {
+					console.log('created');
+					this.debouncedGetAnswer = _.debounce(this.getAnswer, 1000);
+					this.debouncedLogin = _.debounce(this.login, 2000);
+				},
+				mounted: function () {
+					console.log('mounted');
+				},
+				updated: function () {
+					console.log('updated');
+				},
+				destroyed: function () {
+					console.log('destroyed');
+				}
+				
+			})
+		</script>
+	</body>
+</html>
