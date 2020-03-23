@@ -24,26 +24,10 @@ Vue.component('my-component', {
 	template: '<p>{{ greeting }} World!</p>',
 })
 
-
-import VueRouter from 'vue-router'
-Vue.use(VueRouter)
-// 1. 定义组件
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
-// 2. 定义路由
-const routes = [
-	{ path: '/foo', component: Foo },
-	{ path: '/bar', component: Bar }
-]
-// 3. 创建 router 实例
-const router = new VueRouter({
-	routes
-})
-
-
+import router from './router'
 import Hello from './Hello.vue'
 
-var app = new Vue({
+window.app = new Vue({
 	el: '#app',
 	data: {
 		message: 'Hello aaa',
