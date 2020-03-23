@@ -38,6 +38,30 @@ var app = new Vue({
 	},
 });
 
+// 简单路由测试--不成功，浏览器会重新发起请求
+//const NotFound = { template: '<p>Page not found</p>' }
+//const Home = { template: '<p>home page</p>' }
+//const About = { template: '<p>about page</p>' }
+//const routes = {
+//	'/': Home,
+//	'/about': About
+//}
+//window.app = new Vue({
+//	el: '#app',
+//	data: {
+//		currentRoute: window.location.pathname
+//	},
+//	computed: {
+//		ViewComponent () {
+//			console.log('1111111');
+//			return routes[this.currentRoute] || NotFound
+//		},
+//	},
+//	render (h) {
+//		return h(this.ViewComponent)
+//	}
+//})
+
 import './static/css/index.css'
 console.log('css parse11122223333: ')
 import './static/css/aaa.css'
