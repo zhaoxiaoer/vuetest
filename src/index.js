@@ -24,6 +24,23 @@ Vue.component('my-component', {
 	template: '<p>{{ greeting }} World!</p>',
 })
 
+
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
+// 1. 定义组件
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
+// 2. 定义路由
+const routes = [
+	{ path: '/foo', component: Foo },
+	{ path: '/bar', component: Bar }
+]
+// 3. 创建 router 实例
+const router = new VueRouter({
+	routes
+})
+
+
 import Hello from './Hello.vue'
 
 var app = new Vue({
@@ -36,6 +53,7 @@ var app = new Vue({
 	components: {
 		Hello,
 	},
+	router,
 });
 
 // 简单路由测试--不成功，浏览器会重新发起请求
