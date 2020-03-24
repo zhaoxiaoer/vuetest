@@ -15,6 +15,15 @@
 		<div>计数: {{ count }}</div>
 		<button @click="increment">加</button>
 		
+		<div>store 计数: {{ this.$store.state.count }}, message: {{ message }}</div>
+		<button @click="increment2">加1</button>
+		<button @click="INCREMENT_MUTATION(2)">加2</button>
+		
+		<button @click="increment_act">5秒后加1</button>
+		<button @click="INCREMENT_ACTION(2)">2秒后加2</button>
+		
+		<div>store 计数2，保持组件的模块化: {{ count2 }}, {{  }} </div>
+		
 		<!-- 嵌套路由 -->
 		<router-view></router-view>
 		<router-view name="a"></router-view>
@@ -27,6 +36,7 @@
 import Vue from 'vue'
 import Header from '../common/Header.vue'
 import Footer from '../common/Footer.vue'
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default Vue.extend({
 	name: 'User',
@@ -50,6 +60,24 @@ export default Vue.extend({
 		increment () {
 			this.count++
 		},
+		increment2 () {
+			this.$store.commit('increment', 3)
+		},
+		...mapActions([
+			'increment_act',
+			'INCREMENT_ACTION'
+		]),
+		...mapMutations([
+			'INCREMENT_MUTATION'
+		]),
+	},
+	computed: {
+		count2 () {
+			return this.$store.state.count
+		},
+		...mapState([
+			'message'
+		]),
 	},
 	watch: {
 		'$route' (to, from) {

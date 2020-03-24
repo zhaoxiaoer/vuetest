@@ -25,7 +25,11 @@ Vue.component('my-component', {
 })
 
 import router from './router'
+import store from './store'
+//import { sync } from 'vuex-router-sync'
 import Hello from './Hello.vue'
+
+//sync(store, router)
 
 window.app = new Vue({
 	el: '#app',
@@ -38,6 +42,7 @@ window.app = new Vue({
 		Hello,
 	},
 	router,
+	store,
 });
 
 // 简单路由测试--不成功，浏览器会重新发起请求
