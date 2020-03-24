@@ -1,6 +1,9 @@
 <template>
 	<div class="header">
-		<p>header</p>
+		<div>
+			<a href="/">首页</a>
+			<a href="/about">关于</a>
+		</div>
 	</div>
 </template>
 
