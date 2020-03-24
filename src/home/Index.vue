@@ -4,7 +4,8 @@
 		<Web>
 			<p>这段话不会在小程序显示</p>
 		</Web>
-		<a href="/user/2">查看2号用户</a>
+		<a href="/user/2/post/3">查看2号用户</a>
+		<router-link to="/user/zaa/post/55">查看用户</router-link>
 		<Footer></Footer>
 	</div>
 </template>
